@@ -1,0 +1,186 @@
+
+
+body {
+	padding: 0;
+	font-family: 'sans-serif';
+	margin: 0;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+
+layout > * {
+	display: block;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+
+}
+
+layout {
+	position: absolute;
+	width: 100%;
+	height: 100%;	
+}
+
+header {
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 40px;
+	background: #999;
+	top:0;
+}
+
+.show-button {
+	display: none;
+}
+
+footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 40px;
+	bottom: 0;
+	background: #ddd;
+}
+
+aside.left {
+	left: 0;
+	bottom: 40px;
+	width: 200px;
+	background: #555;
+	position: absolute;
+}
+
+main {
+	background: #bbb;
+	position: absolute;
+	left: 200px;
+	bottom: 40px;
+	top: 40px;
+	right: 150px;
+}
+
+aside.right {
+	position: absolute;
+	top: 40px;
+	bottom: 40px;
+	right:0;
+	width: 150px;
+	background: #000;
+	color: #fff;
+}
+
+.overlay {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 100;
+}
+
+.login-form {
+	position: absolute;
+	width: 220px;
+	height:110px;
+	background: #555;
+	margin-left: -110px;
+	margin-top: -55px;
+	top: 50%;
+	left: 50%;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+.login-form > div {
+	box-sizing: border-box;
+	width: 210px;
+	margin: 0 auto;
+}
+
+input[type="text"],
+input[type="password"] {
+	border-radius: 5px;
+	margin: 5px;
+	width: 200px;
+	height: 20px;
+	background: #ddd;
+}
+
+input[type="submit"] {
+	width: 205px;
+	height: 25px;
+	border-radius: 5px;
+	margin: 5px;
+}
+
+@media all and (max-width: 480px) {
+	header,
+	footer {
+		position: fixed;
+		height: 55px;
+	}
+
+	header {
+		top:0;
+		left: 0;
+		z-index: 100;
+	}
+
+	footer {
+		bottom: 0;
+		left: 0;
+	}
+	
+	aside.left {
+		width: 100%;
+		top: 55px;
+		height: 41%;
+		left: 0;
+		right: 0;
+		bottom: auto;
+		display: none;
+	}
+
+	aside.right {
+		width: 100%;
+		bottom: 55px;
+		height:40%;
+		top: auto;
+		display: none;
+	}
+
+	main {
+		margin-top: 55px;
+		position: static;
+		width: 100%;
+		height: 100%;
+	}
+
+	.show-button {
+		display: block;
+		color: white;
+		text-align: center;
+		padding-top:3px;
+		width: 150px;
+		height: 23px;
+		border: 1px solid white;
+		background: #bbb;
+		margin: 0 auto;
+	}
+
+	.show-button:hover {
+		background: #777;
+	}
+
+	.login-form {
+		position: fixed;
+	}
+
+}
