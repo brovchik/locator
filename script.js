@@ -1,9 +1,14 @@
 function HideOverrlay() {
-	document.getElementById("overl").style.display='none';
-	
+	document.getElementById("overl").className="hidden";	
 }
 
 function showAsides() {
-	document.getElementById("left-aside").style.display="block";
-	document.getElementById("right-aside").style.display="block";
+	if(getComputedStyle(document.getElementById("left-aside")).display=="none") {
+		document.getElementById("left-aside").style.display = "block";
+	}
+	else document.getElementById("left-aside").style.display = "none";
+	if(getComputedStyle(document.getElementById("right-aside")).display=="none") {
+		document.getElementById("right-aside").style.display = "block";
+	}
+	else document.getElementById("right-aside").style.display = "none";
 }
