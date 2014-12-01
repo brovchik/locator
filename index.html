@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link href="style.css" rel="stylesheet" type="text/css">
+	<script src="script.js" type="text/javascript" charset="utf-8">
+	</script>
+</head>
+<body>
+	<layout>
+		<header>
+			Header
+			<div class="show-button" onclick="showAsides()">Show</div>
+		</header>
+		<aside class="left" id="left-aside">Left column</aside>
+		<main>Main block</main>
+		<aside class="right" id="right-aside">Right column</aside>
+		<footer>Footer</footer>
+
+	</layout>
+	<div class="overlay" id="overl">
+		<div class="login-form">
+			<div>
+				<input type="text" name="" value="" placeholder="Login"><br>
+				<input type="password" name="" value="" placeholder="Password"><br>
+				<input type="submit" value="Log In" id="logIn" onclick="HideOverrlay()">
+			</div>
+		</div>
+	</div>
+</body>
+</html>
