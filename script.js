@@ -5,7 +5,7 @@ function HideOverlay() {
 		console.log(name);
 		console.log(pass);
 		if(name == "BREV" && pass =="BREV") {
-			document.getElementById("header").innerHTML = "<div class=\"logined\">Привет, "+name+"!</div>";
+			document.getElementById("header").innerHTML += "<div class=\"logined\">Привет, "+name+"!</div>";
 			document.getElementById("overl").className="hidden";
 		}	
 		else {alert("Invalid user "+name+"! Enter again");}

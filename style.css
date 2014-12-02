@@ -129,6 +129,14 @@ input[type="button"] {
 	margin: 5px;
 }
 
+.logined {
+	position: absolute;
+	font-size: 0.7em;
+	right: 0;
+	top: 5px;
+	margin-right: 10px;
+}
+
 @media all and (max-width: 480px) {
 	header,
 	footer {
@@ -182,6 +190,7 @@ input[type="button"] {
 		border: 1px solid white;
 		background: #bbb;
 		margin: 0 auto;
+		cursor: default;
 	}
 
 
