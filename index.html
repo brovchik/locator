@@ -10,7 +10,7 @@
 </head>
 <body>
 	<layout>
-		<header>
+		<header id="header">
 			Header
 			<div class="show-button" onclick="showAsides()">Show</div>
 		</header>
@@ -24,10 +24,11 @@
 	<div class="overlay">
 		<div class="login-form">
 			<div>
-				<input type="text" name="" value="" placeholder="Login"><br>
-				<input type="password" name="" value="" placeholder="Password"><br>
-				<input type="submit" value="Log In" id="logIn" onclick="HideOverrlay()">
-				http://jsbin.com/bujakuhedo/15/edit
+				<form name=login>
+					<input type="text" name="userName" value="" placeholder="Login"><br>
+					<input type="password" name="pass" value="" placeholder="Password"><br>
+					<input type="button" value="Log In" id="logIn" onclick="HideOverlay()">
+				</form>
 			</div>
 		</div>
 	</div>
