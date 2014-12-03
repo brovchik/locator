@@ -5,8 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta charset="utf-8">
 	<link href="style.css" rel="stylesheet" type="text/css">
-	<script src="script.js" type="text/javascript" charset="utf-8">
-	</script>
+	<script src="https://trc-api.wialon.com/wsdk/script/wialon.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	<layout>
@@ -25,13 +24,69 @@
 		<div class="login-form">
 			<div>
 				<form name=login>
-					<input type="text" name="userName" value="" placeholder="Login"><br>
-					<input type="password" name="pass" value="" placeholder="Password"><br>
-					<input type="button" value="Log In" id="logIn" onclick="HideOverlay()">
+					<input type="text" name="userName" value="brev" placeholder="Login"><br>
+					<input id="password" type="password" name="pass" value="12345678qwerty" placeholder="Password"><br>
+					<input type="button" value="Войти" id="logIn" onclick="LogIn()">
 				</form>
 			</div>
 		</div>
 	</div>
 	</div>
+<script>
+
+//enter на поле password
+var login = document.getElementById("password");
+login.onkeydown = function(c) {
+	if(c.keyCode == 13) {
+		LogIn();
+	}
+}
+
+
+function LogIn(){
+	var name = document.forms[0].userName.value;
+	var pass = document.forms[0].pass.value;
+	if(name != '') {
+		var session = wialon.core.Session.getInstance(); //инициализация сессии
+		session.initSession('https://trc-api.wialon.com');
+		session.login(name, pass,'',function(code){
+		if(code==0) {
+		setTimeout((function(){
+			document.getElementById("header").innerHTML += "<div class=\"logined\">Привет, "+session.getCurrUser().getName()+"!</div><div class=\"logout-button visible\" onclick=\"LogOut()\">Logout</div>";
+			document.getElementById("overl").className="hidden";
+			//получение информации об объекте, публикация их в левый столбец
+			session.loadLibrary('itemIcon');
+			session.updateDataFlags([{type:'type', data: 'avl_unit', flags: 0x00000411, mode: 0}], function() {
+				var items = session.getItems('avl_unit');
+				console.log(items);
+				var obj = document.getElementById("left-aside");
+				for(var i = 0; i < items.length; i++) {
+					obj.innerHTML += ('<li><img src=\"' + items[i].getIconUrl(32) + '\"><br>'+ items[i].getName() + ' <br>x:' + (items[i].getPosition()? items[i].getPosition().x: 'нет') + ' <br>y:' + (items[i].getPosition() ? items[i].getPosition().y: 'нет') + ' <br>z:' + (items[i].getPosition() ? items[i].getPosition().z : 'нет') +  +  ';</li><br>');
+				}
+			});
+		}), 1000);
+	}
+		else {alert("Error");}
+	});
+
+	}
+}
+
+function LogOut() {
+	var session = wialon.core.Session.getInstance();
+	session.logout( function(code) {
+		if(code == 0) {
+			document.getElementById("header").innerHTML += "<div class=\"logined\"></div><div class=\"logout-button\" onclick=\"LogOut()\"></div>";
+			document.getElementById("overl").className="visible";
+			document.forms[0].pass.value = '';
+		}
+	});
+}
+	
+</script>
+<!-- -->
+<script src="script.js" type="text/javascript" charset="utf-8">
+</script>
 </body>
+
 </html>

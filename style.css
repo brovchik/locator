@@ -41,6 +41,7 @@ header {
 	height: 40px;
 	background: #999;
 	top:0;
+	z-index: 1000;
 }
 
 .show-button {
@@ -57,6 +58,7 @@ footer {
 }
 
 aside.left {
+	display: block;
 	left: 0;
 	bottom: 40px;
 	width: 200px;
@@ -75,6 +77,7 @@ main {
 }
 
 aside.right {
+	display: block;
 	position: absolute;
 	top: 40px;
 	bottom: 40px;
@@ -137,6 +140,22 @@ input[type="button"] {
 	margin-right: 10px;
 }
 
+.logout-button {
+		float:right;
+		background: #333;
+		color:white;
+		padding: 4px;
+		font-size: 0.7em;
+		margin-top: 20px;
+		cursor: pointer;
+	}
+
+.logout-button:after {
+	display: block;
+	content: '';
+	clear: both;
+}
+
 @media all and (max-width: 480px) {
 	header,
 	footer {
@@ -189,7 +208,7 @@ input[type="button"] {
 		height: 23px;
 		border: 1px solid white;
 		background: #bbb;
-		margin: 0 auto;
+		/*margin: 0 auto;*/
 		cursor: default;
 	}
 
@@ -197,5 +216,6 @@ input[type="button"] {
 	.login-form {
 		position: fixed;
 	}
+
 
 }
