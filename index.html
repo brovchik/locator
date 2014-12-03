@@ -61,7 +61,7 @@ function LogIn(){
 				console.log(items);
 				var obj = document.getElementById("left-aside");
 				for(var i = 0; i < items.length; i++) {
-					obj.innerHTML += ('<li><img src=\"' + items[i].getIconUrl(32) + '\"><br>'+ items[i].getName() + ' <br>x:' + (items[i].getPosition()? items[i].getPosition().x: 'нет') + ' <br>y:' + (items[i].getPosition() ? items[i].getPosition().y: 'нет') + ' <br>z:' + (items[i].getPosition() ? items[i].getPosition().z : 'нет') +  +  ';</li><br>');
+					obj.innerHTML += ('<li><img src=\"' + items[i].getIconUrl(32) + '\"><br>'+ items[i].getName() + ' <br>x: ' + (items[i].getPosition()? items[i].getPosition().x: 'нет') + ' <br>y :' + (items[i].getPosition() ? items[i].getPosition().y: 'нет') + ' <br>z: ' + (items[i].getPosition() ? items[i].getPosition().z : 'нет') + '<br>time: ' + (items[i].getPosition() ? (new Date() + (items[i].getPosition().t)): 'нет') + ';</li><br>');
 				}
 			});
 		}), 1000);
