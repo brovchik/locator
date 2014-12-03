@@ -1,146 +1,216 @@
-
-
 body {
-	padding: 0;
-	font-family: 'Arial', 'sans-serif';
-	margin: 0;
+    padding: 0;
+    font-family: Verdana, sans-serif;
+    margin: 0;
 }
 
 html,
 body {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
+    font-size: 0.9em;
 }
 
 .hidden {
-	display: none;
+    display: none;
 }
 
 .visible {
-	display: block;
+    display: block;
 }
 
 layout > * {
-	display: block;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-
+    display: block;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 
 layout {
-	position: absolute;
-	width: 100%;
-	height: 100%;	
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 header {
-	position: absolute;
-	left: 0;
-	right: 0;
-	height: 40px;
-	background: #999;
-	top:0;
-	z-index: 1000;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 55px;
+    background: #999;
+    top: 0;
+    z-index: 1000;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 1.5em;
+    padding: 0;
+    margin: 3px;
+}
+
+h3 {
+    margin-top: 0;
 }
 
 .show-button {
-	display: none;
+    display: none;
 }
 
 footer {
-	position: absolute;
-	left: 0;
-	right: 0;
-	height: 40px;
-	bottom: 0;
-	background: #ddd;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 55px;
+    bottom: 0;
+    background: #ddd;
 }
 
 aside.left {
-	display: block;
-	left: 0;
-	bottom: 40px;
-	width: 200px;
-	background: #555;
-	position: absolute;
-	top: 40px;
+    display: block;
+    left: 0;
+    bottom: 55px;
+    width: 200px;
+    background: #555;
+    position: absolute;
+    top: 55px;
+    padding: 10px;
+}
+
+.objects {
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+}
+
+
+.itemIcon {
+    display: table-cell;
+    border-bottom: 1px dashed #000;
+    width: 20%;
+}
+
+
+.itemInfo {
+    display: table-cell;
+    vertical-align: top;
+    border-bottom: 1px dashed #000;
+    width: 80%;
+}
+
+li.item {
+    display: table-row;
 }
 
 main {
-	background: #bbb;
-	position: absolute;
-	left: 200px;
-	bottom: 40px;
-	top: 40px;
-	right: 150px;
+    background: #bbb;
+    position: absolute;
+    left: 200px;
+    bottom: 55px;
+    top: 55px;
+    right: 150px;
 }
 
 aside.right {
-	display: block;
-	position: absolute;
-	top: 40px;
-	bottom: 40px;
-	right:0;
-	width: 150px;
-	background: #000;
-	color: #fff;
+    display: block;
+    position: absolute;
+    top: 55px;
+    bottom: 55px;
+    right: 0;
+    width: 150px;
+    background: #000;
+    color: #fff;
 }
 
 .overlay {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	background: rgba(0,0,0,0.8);
-	z-index: 100;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 1001;
 }
 
 .login-form {
-	position: absolute;
-	width: 220px;
-	height:110px;
-	background: #555;
-	margin-left: -110px;
-	margin-top: -55px;
-	top: 50%;
-	left: 50%;
-	border-radius: 15px;
-	padding: 10px;
+    position: absolute;
+    width: 220px;
+    height: 110px;
+    background: #555;
+    margin-left: -110px;
+    margin-top: -55px;
+    top: 50%;
+    left: 50%;
+    border-radius: 15px;
+    padding: 10px;
 }
 
-.login-form > div {
-	box-sizing: border-box;
-	width: 210px;
-	margin: 0 auto;
-}
+    .login-form > div {
+        box-sizing: border-box;
+        width: 210px;
+        margin: 0 auto;
+    }
 
 input[type="text"],
 input[type="password"] {
-	border-radius: 5px;
-	margin: 5px;
-	width: 200px;
-	height: 20px;
-	background: #ddd;
+    border-radius: 5px;
+    margin: 5px;
+    width: 200px;
+    height: 20px;
+    background: #ddd;
 }
 
 input[type="button"] {
-	width: 205px;
-	height: 25px;
-	border-radius: 5px;
-	margin: 5px;
+    width: 205px;
+    height: 25px;
+    border-radius: 5px;
+    margin: 5px;
 }
 
 .logined {
-	position: absolute;
-	font-size: 0.7em;
-	right: 0;
-	top: 5px;
-	margin-right: 10px;
+    position: absolute;
+    font-size: 0.8em;
+    right: 0;
+    top: 5px;
+    margin-right: 10px;
 }
 
-.logout-button {
+    .logined a {
+        display: block;
+        padding: 4px;
+        background: #222;
+        color: #eee;
+        text-decoration: none;
+        margin-top: 5px;
+    }
+
+.objectName {
+    font-weight: 600;
+    font-style: italic;
+}
+
+.coord {
+    font-size: 0.8em;
+}
+
+.timeStr {
+    font-size: 0.85em;
+}
+
+    .timeStr:after {
+        content: '';
+        display: block;
+        height: 10px;
+    }
+
+.itemIcon:before,
+.objectName:before {
+    content: '';
+    display: block;
+    height: 10px;
+}
+
+/*.logout-button {
 		float:right;
 		background: #333;
 		color:white;
@@ -149,73 +219,89 @@ input[type="button"] {
 		margin-top: 20px;
 		cursor: pointer;
 	}
+*/
 
 .logout-button:after {
-	display: block;
-	content: '';
-	clear: both;
+    display: block;
+    content: '';
+    clear: both;
 }
 
 @media all and (max-width: 480px) {
-	header,
-	footer {
-		position: fixed;
-		height: 55px;
-	}
+    header,
+    footer {
+        position: fixed;
+        height: 55px;
+    }
 
-	header {
-		top:0;
-		left: 0;
-		z-index: 100;
-	}
+    header {
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
 
-	footer {
-		bottom: 0;
-		left: 0;
-	}
-	
-	aside.left {
-		width: 100%;
-		top: 55px;
-		height: 50%;
-		left: 0;
-		right: 0;
-		bottom: auto;
-		display: none;
-	}
+    footer {
+        bottom: 0;
+        left: 0;
+    }
 
-	aside.right {
-		width: 100%;
-		bottom: 55px;
-		height:40%;
-		top: auto;
-		display: none;
-	}
+    aside.left {
+        /*width: 100%;*/
+        top: 55px;
+        height: 50%;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        display: none;
+    }
 
-	main {
-		margin-top: 55px;
-		position: static;
-		width: 100%;
-		height: 85%;
-	}
+    aside.right {
+        width: 100%;
+        bottom: 55px;
+        height: 40%;
+        top: auto;
+        display: none;
+    }
 
-	.show-button {
-		display: block;
-		color: white;
-		text-align: center;
-		padding-top:3px;
-		width: 150px;
-		height: 23px;
-		border: 1px solid white;
-		background: #bbb;
-		/*margin: 0 auto;*/
-		cursor: default;
-	}
+    main {
+        margin-top: 55px;
+        position: static;
+        width: 100%;
+        height: 85%;
+    }
+
+    .show-button {
+        display: block;
+        color: white;
+        text-align: center;
+        padding-top: 3px;
+        width: 25px;
+        height: 23px;
+        border: 1px solid white;
+        background: #bbb;
+        /*margin: 0 auto;*/
+        cursor: default;
+        float: left;
+        margin-right: 10px;
+    }
+
+        .show-button:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
 
 
-	.login-form {
-		position: fixed;
-	}
+    .login-form {
+        position: fixed;
+    }
+
+    .itemIcon {
+        border-bottom: none;
+    }
 
 
+    .itemInfo {
+        border-bottom: none;
+    }
 }
