@@ -1,3 +1,10 @@
+var map = L.map('map');
+
+var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib});
+map.addLayer(osm);
+map.setView([51.505, -0.09], 13);
 
 function showAsides() {
     if (getComputedStyle(document.getElementById("left-aside")).display == "none") {
@@ -27,13 +34,11 @@ function LogIn() {
         session.initSession('https://trc-api.wialon.com');
         session.login(name, pass, '', function (code) {
             if (code == 0) {
-                setTimeout((function () {
-                    document.getElementById("logined").innerHTML = "Привет, " + session.getCurrUser().getName() + "!<br><a href=\"#\" onclick=\"LogOut()\">Выйти</a>";
-                    document.getElementById("overl").className = "hidden";
-                    //получение информации об объекте, публикация их в левый столбец
-                    session.loadLibrary('itemIcon');
-                    updateFlags(session);
-                }), 1000);
+            	document.getElementById("logined").innerHTML = "Привет, " + session.getCurrUser().getName() + "!<br><a href=\"#\" onclick=\"LogOut()\">Выйти</a>";
+                document.getElementById("overl").className = "hidden";
+                //получение информации об объекте, публикация их в левый столбец
+                session.loadLibrary('itemIcon');
+                updateFlags(session);
             }
             else { alert("Error"); }
         });
@@ -46,27 +51,48 @@ function updateFlags(session) {
         var items = session.getItems('avl_unit');
         var obj = document.getElementById("objects");
         var objectsData = '';
+        var point = [];
+        
         for (var i = 0; i < items.length; i++) {
             var itemName = '<span class="objectName">' + items[i].getName() + '</span>';
             var itemIconUrl = '<div class="itemIcon"><img src="' + items[i].getIconUrl(32) + '"/></div>';
+            var imgUrl = items[i].getIconUrl(32);
             if (items[i].getPosition()) {
+            	var myIcon = L.icon({
+				    iconUrl: imgUrl,
+				    iconRetinaUrl: imgUrl,
+				    iconSize: [32, 32],
+				    iconAnchor: [22, 94],
+				    popupAnchor: [-3, -76],
+				    shadowUrl: '',
+				    shadowRetinaUrl: '',
+				    shadowSize: [,],
+				    shadowAnchor: [, ]
+				});
                 var itemPositionX = 'x: ' + items[i].getPosition().x.toFixed(3) + '&deg;';
                 var itemPositionY = 'y: ' + items[i].getPosition().y.toFixed(3) + '&deg;';
+                L.marker([items[i].getPosition().y, items[i].getPosition().x], {icon: myIcon}).addTo(map).bindPopup("<b>Hello world!</b><br>I am a popup.");
+                map.setView([items[i].getPosition().y, items[i].getPosition().x], 20);
                 var itemSpeed = 'Скорость: ' + items[i].getPosition().s + ' км/ч';
                 var itemTime = new Date(1000 * items[i].getPosition().t);
+                var id = items[i].getPosition()._id;
                 var h = itemTime.getHours();
                 var min = itemTime.getMinutes();
                 var d = itemTime.getDay();
                 var mon = itemTime.getMonth();
                 var y = itemTime.getFullYear();
-                var tx = Date.U
                 var timeString = 'Время: ' + h + ':' + (min < 10 ? '0' + min : min) + ' ' + d + '.' + (mon < 9 ? '0' + (+mon + 1) : mon + 1) + '.' + y;
+                point.push([items[i].getPosition().y, items[i].getPosition().x]);
+                point.push([53.1, 55.6]);//потом убрать!!!
+                L.marker([53.1, 55.6]).addTo(map).bindPopup('Маркер 2');
+                
             }
             else {
                 var itemPositionX = 'Нет данных об объекте';
                 var itemPositionY = '';
                 var itemSpeed = '';
                 var itemTime = '';
+                //var id = items[i].getPosition()._id;
                 var h = '';
                 var min = '';
                 var d = '';
@@ -74,11 +100,18 @@ function updateFlags(session) {
                 var y = '';
                 var timeString = '';
             }
-            objectsData += '<li class="item">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ', ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
+            objectsData += '<li class="item" unit-id="' + id + '">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ' ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
         }
+        var bounds = L.latLngBounds(point);
+        map.fitBounds(bounds);
         obj.innerHTML += objectsData;
     });
 }
+
+// var obj = document.getElementById("objects");
+// obj.addEventListener('click', function(event) {
+// 	console.log(this);
+// });
 
 function LogOut() {
     var session = wialon.core.Session.getInstance();
@@ -91,7 +124,6 @@ function LogOut() {
         }
     });
 }
-
 
 // function fact(n) {
 // 	if(n == 0 || n == 1) return 1;

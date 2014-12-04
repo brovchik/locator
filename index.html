@@ -5,7 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta charset="utf-8">
 	<link href="style.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 	<script src="https://trc-api.wialon.com/wsdk/script/wialon.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
 </head>
 <body>
 	<layout>
@@ -17,7 +20,7 @@
 		<aside class="left" id="left-aside"><div><h3>Данные об объектах:</h3></div>
             <div id="objects"></div>
         </aside>
-		<main>Main block</main>
+		<main><div id="map" class="full-screen"></div></main>
 		<aside class="right" id="right-aside">Right column</aside>
 		<footer>Footer</footer>
 
@@ -38,9 +41,11 @@
 <script>
 
 
+
 </script>
-<!-- -->
+
 <script src="script.js" type="text/javascript" charset="utf-8">
+
 </script>
 </body>
 
