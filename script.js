@@ -89,7 +89,6 @@ function updateFlags(session) {
                 var itemPositionY = '';
                 var itemSpeed = '';
                 var itemTime = '';
-                debugger;
                 var id = items[i].getId();
                 var h = '';
                 var min = '';
