@@ -32,48 +32,52 @@ function LogIn() {
                     document.getElementById("overl").className = "hidden";
                     //получение информации об объекте, публикация их в левый столбец
                     session.loadLibrary('itemIcon');
-                    session.updateDataFlags([{ type: 'type', data: 'avl_unit', flags: 0x00000411, mode: 0 }], function () {
-                        var items = session.getItems('avl_unit');
-                        console.log(items);
-                        var obj = document.getElementById("objects");
-                        var objectsData = '';
-                        for (var i = 0; i < items.length; i++) {
-                            var itemName = '<span class="objectName">' + items[i].getName() + '</span>';
-                            var itemIconUrl = '<div class="itemIcon"><img src="' + items[i].getIconUrl(32) + '"/></div>';
-                            if(items[i].getPosition()) {
-                                var itemPositionX = 'x: ' + items[i].getPosition().x.toFixed(3) + '&deg;';
-                                var itemPositionY = 'y: ' + items[i].getPosition().y.toFixed(3) + '&deg;';
-                                var itemSpeed = 'Скорость: ' + items[i].getPosition().s + ' км/ч';
-                                var itemTime = new Date(1000 * items[i].getPosition().t);
-                                var h = itemTime.getHours();
-                                var min = itemTime.getMinutes();
-                                var d = itemTime.getDay();
-                                var mon = itemTime.getMonth();
-                                var y = itemTime.getFullYear();
-                                var timeString ='Время: ' +  h + ':' + (min<10?'0'+min:min) + ' ' + d + '.' + (mon<9?'0'+(+mon+1):mon+1) + '.' + y;
-                            }
-                            else {
-                                var itemPositionX = 'Нет данных об объекте';
-                                var itemPositionY = '';
-                                var itemSpeed = '';
-                                var itemTime = '';
-                                var h = '';
-                                var min = '';
-                                var d = '';
-                                var mon = '';
-                                var y = '';
-                                var timeString = '';
-                            }
-                            objectsData += '<li class="item">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ', ' + itemPositionY + '<br>' + itemSpeed +'</span><br><span class="timeStr">'  + timeString + '</span></div></li>';
-                        }
-                        obj.innerHTML += objectsData;
-                    });
+                    updateFlags(session);
                 }), 1000);
             }
             else { alert("Error"); }
         });
 
     }
+}
+
+function updateFlags(session) {
+    session.updateDataFlags([{ type: 'type', data: 'avl_unit', flags: 0x00000411, mode: 0 }], function () {
+        var items = session.getItems('avl_unit');
+        var obj = document.getElementById("objects");
+        var objectsData = '';
+        for (var i = 0; i < items.length; i++) {
+            var itemName = '<span class="objectName">' + items[i].getName() + '</span>';
+            var itemIconUrl = '<div class="itemIcon"><img src="' + items[i].getIconUrl(32) + '"/></div>';
+            if (items[i].getPosition()) {
+                var itemPositionX = 'x: ' + items[i].getPosition().x.toFixed(3) + '&deg;';
+                var itemPositionY = 'y: ' + items[i].getPosition().y.toFixed(3) + '&deg;';
+                var itemSpeed = 'Скорость: ' + items[i].getPosition().s + ' км/ч';
+                var itemTime = new Date(1000 * items[i].getPosition().t);
+                var h = itemTime.getHours();
+                var min = itemTime.getMinutes();
+                var d = itemTime.getDay();
+                var mon = itemTime.getMonth();
+                var y = itemTime.getFullYear();
+                var tx = Date.U
+                var timeString = 'Время: ' + h + ':' + (min < 10 ? '0' + min : min) + ' ' + d + '.' + (mon < 9 ? '0' + (+mon + 1) : mon + 1) + '.' + y;
+            }
+            else {
+                var itemPositionX = 'Нет данных об объекте';
+                var itemPositionY = '';
+                var itemSpeed = '';
+                var itemTime = '';
+                var h = '';
+                var min = '';
+                var d = '';
+                var mon = '';
+                var y = '';
+                var timeString = '';
+            }
+            objectsData += '<li class="item">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ', ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
+        }
+        obj.innerHTML += objectsData;
+    });
 }
 
 function LogOut() {
