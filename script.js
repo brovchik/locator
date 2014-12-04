@@ -75,24 +75,22 @@ function updateFlags(session) {
                 map.setView([items[i].getPosition().y, items[i].getPosition().x], 20);
                 var itemSpeed = 'Скорость: ' + items[i].getPosition().s + ' км/ч';
                 var itemTime = new Date(1000 * items[i].getPosition().t);
-                var id = items[i].getPosition()._id;
+                var id = items[i].getId();
                 var h = itemTime.getHours();
                 var min = itemTime.getMinutes();
                 var d = itemTime.getDay();
                 var mon = itemTime.getMonth();
                 var y = itemTime.getFullYear();
                 var timeString = 'Время: ' + h + ':' + (min < 10 ? '0' + min : min) + ' ' + d + '.' + (mon < 9 ? '0' + (+mon + 1) : mon + 1) + '.' + y;
-                point.push([items[i].getPosition().y, items[i].getPosition().x]);
-                point.push([53.1, 55.6]);//потом убрать!!!
-                L.marker([53.1, 55.6]).addTo(map).bindPopup('Маркер 2');
-                
+                point.push([items[i].getPosition().y, items[i].getPosition().x]);                
             }
             else {
                 var itemPositionX = 'Нет данных об объекте';
                 var itemPositionY = '';
                 var itemSpeed = '';
                 var itemTime = '';
-                //var id = items[i].getPosition()._id;
+                debugger;
+                var id = items[i].getId();
                 var h = '';
                 var min = '';
                 var d = '';
@@ -100,7 +98,7 @@ function updateFlags(session) {
                 var y = '';
                 var timeString = '';
             }
-            objectsData += '<li class="item" unit-id="' + id + '">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ' ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
+            objectsData += '<li class="item" unit-id="' + id + '" onclick="findObject(' + id + ')">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ' ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
         }
         var bounds = L.latLngBounds(point);
         map.fitBounds(bounds);
@@ -108,6 +106,17 @@ function updateFlags(session) {
     });
 }
 
+
+function findObject(id) {
+    
+    var item = wialon.core.Session.getInstance().getItem(id);
+    if (item.getPosition()) {
+        var itemPositionX = item.getPosition().x;
+        var itemPositionY = item.getPosition().y;
+        map.setView([itemPositionY, itemPositionX], 20);
+    }
+    else return null;
+}
 // var obj = document.getElementById("objects");
 // obj.addEventListener('click', function(event) {
 // 	console.log(this);
