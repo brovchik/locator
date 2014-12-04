@@ -129,6 +129,10 @@ function LogOut() {
             document.getElementById("objects").innerHTML = '';
             document.getElementById("overl").className = "visible";
             document.forms[0].pass.value = '';
+            var clearMarker = document.getElementsByClassName('leaflet-marker-pane');
+            for (var i = 0; i < clearMarker.length; i++) {
+                clearMarker[i].innerHTML = '';
+            }
         }
     });
 }
