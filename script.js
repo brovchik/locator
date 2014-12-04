@@ -4,7 +4,7 @@ var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
 var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib});
 map.addLayer(osm);
-map.setView([51.505, -0.09], 13);
+map.setView([53.93, 27.589], 11);
 
 function showAsides() {
     if (getComputedStyle(document.getElementById("left-aside")).display == "none") {
@@ -71,7 +71,6 @@ function updateFlags(session) {
 				});
                 var itemPositionX = 'x: ' + items[i].getPosition().x.toFixed(3) + '&deg;';
                 var itemPositionY = 'y: ' + items[i].getPosition().y.toFixed(3) + '&deg;';
-                L.marker([items[i].getPosition().y, items[i].getPosition().x], {icon: myIcon}).addTo(map).bindPopup("<b>Hello world!</b><br>I am a popup.");
                 map.setView([items[i].getPosition().y, items[i].getPosition().x], 20);
                 var itemSpeed = 'Скорость: ' + items[i].getPosition().s + ' км/ч';
                 var itemTime = new Date(1000 * items[i].getPosition().t);
@@ -82,7 +81,8 @@ function updateFlags(session) {
                 var mon = itemTime.getMonth();
                 var y = itemTime.getFullYear();
                 var timeString = 'Время: ' + h + ':' + (min < 10 ? '0' + min : min) + ' ' + d + '.' + (mon < 9 ? '0' + (+mon + 1) : mon + 1) + '.' + y;
-                point.push([items[i].getPosition().y, items[i].getPosition().x]);                
+                L.marker([items[i].getPosition().y, items[i].getPosition().x], { icon: myIcon }).addTo(map).bindPopup("<b>" + items[i].getName() + "</b><br>" + itemPositionX + itemPositionY + "<br>" + itemSpeed + "<br>" + timeString);
+                point.push([items[i].getPosition().y, items[i].getPosition().x]);
             }
             else {
                 var itemPositionX = 'Нет данных об объекте';
