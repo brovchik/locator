@@ -83,7 +83,7 @@ aside.left {
     z-index: 999;
     color: #fff;
     transition: all 0.3s;
-    max-height: 500px;
+    max-height: 300px;
     overflow: auto;
 }
 
@@ -274,7 +274,7 @@ input[type="button"] {
         /*width: 100%;*/
         top: 55px;
         height: 50%;
-        left: 0;
+        left: 30px;
         right: 0;
         bottom: auto;
         display: none;
