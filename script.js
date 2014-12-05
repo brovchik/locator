@@ -102,6 +102,7 @@ function updateFlags(session) {
         var bounds = L.latLngBounds(point);
         map.fitBounds(bounds);
         obj.innerHTML += objectsData;
+        document.getElementById("left-aside").style.display = "block";
     });
 }
 
@@ -127,6 +128,7 @@ function LogOut() {
         if (code == 0) {
             document.getElementById("logined").innerHTML = '';
             document.getElementById("objects").innerHTML = '';
+            document.getElementById("left-aside").style.display = "none";
             document.getElementById("overl").className = "visible";
             document.forms[0].pass.value = '';
             var clearMarker = document.getElementsByClassName('leaflet-marker-pane');

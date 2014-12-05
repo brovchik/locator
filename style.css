@@ -37,7 +37,11 @@ header {
     left: 0;
     right: 0;
     height: 55px;
-    background: #999;
+    background-image: -o-linear-gradient(bottom, #ddd 0%, #aaa 95%, #444 98%);
+    background-image: -moz-linear-gradient(bottom, #ddd 0%, #aaa 95%, #444 98%);
+    background-image: -webkit-linear-gradient(bottom, #ddd 0%, #aaa 95%, #444 98%);
+    background-image: -ms-linear-gradient(bottom, #ddd 0%, #aaa 95%, #444 98%);
+    background-image: linear-gradient(to bottom, #ddd 0%, #aaa 95%, #444 98%);
     top: 0;
     z-index: 1000;
     padding: 10px;
@@ -51,7 +55,7 @@ h1 {
 
 h3 {
     margin-top: 0;
-    text-shadow: 0px 0px 4px white;
+    text-shadow: 0px 0px 4px black;
 }
 
 .show-button {
@@ -60,28 +64,37 @@ h3 {
 
 footer {
     position: absolute;
-    left: 0;
     right: 0;
     height: 55px;
     bottom: 0;
     background: #ddd;
+    opacity: 0.8;
+    display: none;
 }
 
 aside.left {
-    display: block;
-    left: 0;
-    bottom: 55px;
-    width: 200px;
-    background: #333;
+    display: none;
+    left: 10px;
+    width: 250px;
+    background: rgba(3,3,3, 0.7);
     position: absolute;
-    top: 55px;
-    padding: 10px;
+    bottom: 10px;
+    padding: 15px;
+    z-index: 999;
+    color: #fff;
+    transition: all 0.3s;
+    max-height: 500px;
+    overflow: auto;
+}
+
+aside.left:hover {
+    background: rgba(3,3,3,0.9);
 }
 
 .objects {
     display: table;
     border-collapse: separate;
-    width: 100%;
+    width: 200px;
 }
 
 
@@ -95,6 +108,7 @@ aside.left {
     display: table-cell;
     vertical-align: top;
     width: 80%;
+    padding-right: 40px;
 }
 
 li.item {
@@ -103,22 +117,22 @@ li.item {
 
 }
 
-li.item:hover {
-	background: #000;
-	cursor: pointer;
-}
+    li.item:hover {
+        background: rgba(0,0,0,0.8);
+        cursor: pointer;
+    }
 
 main {
-   /* background: transparent;*/
+    /* background: transparent;*/
     position: absolute;
-    left: 200px;
-    bottom: 55px;
+    left: 0;
+    bottom: 0px;
     top: 55px;
-    right: 150px;
+    right: 0;
 }
 
 aside.right {
-    display: block;
+    display: none;
     position: absolute;
     top: 55px;
     bottom: 55px;
@@ -134,43 +148,47 @@ aside.right {
     right: 0;
     top: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.9);
     z-index: 1001;
+    transition: display 1s;
 }
 
 .login-form {
     position: absolute;
-    width: 220px;
-    height: 110px;
-    background: #555;
-    margin-left: -110px;
-    margin-top: -55px;
+    width: 260px;
+    height: 150px;
+    background: #333;
+    margin-left: -130px;
+    margin-top: -75px;
     top: 50%;
     left: 50%;
-    border-radius: 15px;
     padding: 10px;
+    box-shadow: #fff 0px 0px 10px;
 }
 
     .login-form > div {
         box-sizing: border-box;
-        width: 210px;
-        margin: 0 auto;
+        width: 226px;
+        margin: 13px auto;
     }
 
 input[type="text"],
 input[type="password"] {
+    display: block;
     border-radius: 5px;
-    margin: 5px;
-    width: 200px;
-    height: 20px;
+    width: 220px;
+    height: 25px;
     background: #ddd;
 }
 
+input:focus {
+    box-shadow: #fff 0px 0px 7px;
+}
+
 input[type="button"] {
-    width: 205px;
-    height: 25px;
+    width: 226px;
+    height: 30px;
     border-radius: 5px;
-    margin: 5px;
 }
 
 .logined {
@@ -184,10 +202,17 @@ input[type="button"] {
     .logined a {
         display: block;
         padding: 4px;
-        background: #222;
+        background: rgba(2,2,2,0.7);
+        border-radius: 3px;
         color: #eee;
         text-decoration: none;
         margin-top: 5px;
+        transition: all 0.3s;
+    }
+
+    .logined a:hover {
+        background: rgba(2,2,2,1);
+        box-shadow: #fff 0px 0px 4px;
     }
 
 .objectName {
@@ -216,17 +241,6 @@ input[type="button"] {
     height: 10px;
 }
 
-/*.logout-button {
-		float:right;
-		background: #333;
-		color:white;
-		padding: 4px;
-		font-size: 0.7em;
-		margin-top: 20px;
-		cursor: pointer;
-	}
-*/
-
 .logout-button:after {
     display: block;
     content: '';
@@ -234,8 +248,8 @@ input[type="button"] {
 }
 
 .full-screen {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 @media all and (max-width: 480px) {
