@@ -6,6 +6,11 @@ var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib});
 map.addLayer(osm);
 map.setView([53.93, 27.589], 11);
 
+var markers = {};
+
+
+
+
 function showAsides() {
     if (getComputedStyle(document.getElementById("left-aside")).display == "none") {
         document.getElementById("left-aside").style.display = "block";
@@ -30,7 +35,7 @@ function LogIn() {
     var name = document.forms[0].userName.value;
     var pass = document.forms[0].pass.value;
     if (name != '') {
-        var session = wialon.core.Session.getInstance(); //инициализация сессии
+    	var session = wialon.core.Session.getInstance(); //инициализация сессии
         session.initSession('https://trc-api.wialon.com');
         session.login(name, pass, '', function (code) {
             if (code == 0) {
@@ -48,12 +53,12 @@ function LogIn() {
 
 function updateFlags(session) {
     session.updateDataFlags([{ type: 'type', data: 'avl_unit', flags: 0x00000411, mode: 0 }], function () {
-        var items = session.getItems('avl_unit');
         var obj = document.getElementById("objects");
         var objectsData = '';
         var point = [];
-        
+        var items = session.getItems('avl_unit');
         for (var i = 0; i < items.length; i++) {
+        	items[i].addListener("changePosition", changesPosition);
             var itemName = '<span class="objectName">' + items[i].getName() + '</span>';
             var itemIconUrl = '<div class="itemIcon"><img src="' + items[i].getIconUrl(32) + '"/></div>';
             var imgUrl = items[i].getIconUrl(32);
@@ -81,7 +86,8 @@ function updateFlags(session) {
                 var mon = itemTime.getMonth();
                 var y = itemTime.getFullYear();
                 var timeString = 'Время: ' + h + ':' + (min < 10 ? '0' + min : min) + ' ' + d + '.' + (mon < 9 ? '0' + (+mon + 1) : mon + 1) + '.' + y;
-                L.marker([items[i].getPosition().y, items[i].getPosition().x], { icon: myIcon }).addTo(map).bindPopup("<b>" + items[i].getName() + "</b><br>" + itemPositionX + itemPositionY + "<br>" + itemSpeed + "<br>" + timeString);
+                markers[id] = L.marker([items[i].getPosition().y, items[i].getPosition().x], { icon: myIcon }).addTo(map).bindPopup("<b>" + items[i].getName() + "</b><br>" + itemPositionX + itemPositionY + "<br>" + itemSpeed + "<br>" + timeString);
+                
                 point.push([items[i].getPosition().y, items[i].getPosition().x]);
             }
             else {
@@ -97,7 +103,7 @@ function updateFlags(session) {
                 var y = '';
                 var timeString = '';
             }
-            objectsData += '<li class="item" unit-id="' + id + '" onclick="findObject(' + id + ')">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ' ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
+            objectsData += '<li class="item" unit id="' + id + '" onclick="findObject(' + id + ')">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ' ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
         }
         var bounds = L.latLngBounds(point);
         map.fitBounds(bounds);
@@ -120,7 +126,16 @@ function findObject(id) {
 // var obj = document.getElementById("objects");
 // obj.addEventListener('click', function(event) {
 // 	console.log(this);
-// });
+// });.
+
+
+function changesPosition(event) {
+	var posX = event.getTarget().getPosition().x;
+	var posY = event.getTarget().getPosition().y;
+	var id  =event.getTarget().getId();
+	markers[id].setLatLng(L.latLng(posY, posX));
+	console.log(posX, posY);
+}
 
 function LogOut() {
     var session = wialon.core.Session.getInstance();
@@ -144,3 +159,15 @@ function LogOut() {
 // 	else return n * fact(n-1);
 // }
 
+// session.addListener("serverUpdated", function(event) {
+// 	var obj = document.getElementsByTagName('li');
+// 	var session = wialon.core.Session.getInstance();
+// 	var items = session.getItems('avl_units');
+// 	for(var i = 0; i < obj.length; i++) {
+// 			if(obj[i].hasAttribute('unit') ) {
+// 				var str = obj[i].querySelector('.timeStr');
+// 				var t = session.getServerTime() - items[0].getPosition().t;
+// 			}
+// 		}
+// 	}
+// });
