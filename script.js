@@ -129,8 +129,8 @@ function findObject(id) {
 
 //сдвиг маркера на текущую позицию и изменения в панели объектов
 function changesPosition(event) {
-    var itemName = event.getTarget().getName();
-	var posX = event.getTarget().getPosition().x;
+    var itemName = '<span class="objectName">' + event.getTarget().getName() + '</span>';
+    var posX = event.getTarget().getPosition().x;
 	var posY = event.getTarget().getPosition().y;
 	var id  = event.getTarget().getId();
 	markers[id].setLatLng(L.latLng(posY, posX));

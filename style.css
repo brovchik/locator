@@ -55,6 +55,7 @@ h1 {
 
 h3 {
     margin-top: 0;
+    margin-left: 5px;
     text-shadow: 0px 0px 4px black;
 }
 
@@ -77,6 +78,8 @@ aside.left {
     left: 10px;
     width: 250px;
     background: rgba(3,3,3, 0.7);
+    border: 3px solid #111;
+    border-radius: 7px;
     position: absolute;
     bottom: 10px;
     padding: 15px;
@@ -101,6 +104,8 @@ aside.left:hover {
 .itemIcon {
     display: table-cell;
     width: 20%;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
 }
 
 
@@ -109,11 +114,14 @@ aside.left:hover {
     vertical-align: top;
     width: 80%;
     padding-right: 40px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
 
 li.item {
     display: table-row;
     color: #eee;
+    border-radius: 5px;
 
 }
 
@@ -267,19 +275,22 @@ input[type="button"] {
     }
 
     footer {
+        display: none;
         bottom: 0;
         left: 0;
     }
 
     aside.left {
         /*width: 100%;*/
-        top: 55px;
-        height: 50%;
-        left: 30px;
-        right: 0;
-        bottom: auto;
+        height: 300px;
+        overflow: auto;
+        left: 55px;
+        bottom: 10px;
         display: none;
+        z-index: 1001;
     }
+
+
 
     aside.right {
         width: 100%;
@@ -290,10 +301,11 @@ input[type="button"] {
     }
 
     main {
-        margin-top: 55px;
-        position: static;
-        width: 100%;
-        height: 85%;
+        position: absolute;
+        top: 55px;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 
     .show-button {
@@ -302,19 +314,25 @@ input[type="button"] {
         text-align: center;
         padding-top: 3px;
         width: 25px;
-        height: 23px;
-        border: 1px solid white;
-        background: #bbb;
-        /*margin: 0 auto;*/
+        height: 25px;
+        border: 8px solid #333;
+        border-radius: 8px;
+        background: #555;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
         cursor: default;
-        float: left;
-        margin-right: 10px;
     }
 
         .show-button:after {
             content: '';
             display: block;
             clear: both;
+        }
+
+        .show-button:hover {
+            background: #111;
         }
 
 
