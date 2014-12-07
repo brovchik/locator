@@ -7,6 +7,9 @@ map.addLayer(osm);
 map.setView([53.93, 27.589], 11);
 
 var markers = {};
+var items;
+var session;
+var servUpdCounter = 0;
 
 
 
@@ -35,14 +38,15 @@ function LogIn() {
     var name = document.forms[0].userName.value;
     var pass = document.forms[0].pass.value;
     if (name != '') {
-    	var session = wialon.core.Session.getInstance(); //инициализация сессии
-        session.initSession('https://trc-api.wialon.com');
+    	session = wialon.core.Session.getInstance(); //инициализация сессии
+    	session.initSession('https://trc-api.wialon.com');
         session.login(name, pass, '', function (code) {
             if (code == 0) {
             	document.getElementById("logined").innerHTML = "Привет, " + session.getCurrUser().getName() + "!<br><a href=\"#\" onclick=\"LogOut()\">Выйти</a>";
                 document.getElementById("overl").className = "hidden";
                 //получение информации об объекте, публикация их в левый столбец
                 session.loadLibrary('itemIcon');
+                session.addListener("serverUpdated", updDataFromServer);
                 updateFlags(session);
             }
             else { alert("Error"); }
@@ -56,7 +60,7 @@ function updateFlags(session) {
         var obj = document.getElementById("objects");
         var objectsData = '';
         var point = [];
-        var items = session.getItems('avl_unit');
+        items = session.getItems('avl_unit');
         for (var i = 0; i < items.length; i++) {
         	items[i].addListener("changePosition", changesPosition);
             var itemName = '<span class="objectName">' + items[i].getName() + '</span>';
@@ -78,16 +82,16 @@ function updateFlags(session) {
                 var itemPositionY = 'y: ' + items[i].getPosition().y.toFixed(3) + '&deg;';
                 map.setView([items[i].getPosition().y, items[i].getPosition().x], 20);
                 var itemSpeed = 'Скорость: ' + items[i].getPosition().s + ' км/ч';
-                var itemTime = new Date(1000 * items[i].getPosition().t);
+                var itemTime = wialon.util.DateTime.formatTime(items[i].getPosition().t);
                 var id = items[i].getId();
-                var h = itemTime.getHours();
-                var min = itemTime.getMinutes();
-                var d = itemTime.getDay();
-                var mon = itemTime.getMonth();
-                var y = itemTime.getFullYear();
-                var timeString = 'Время: ' + h + ':' + (min < 10 ? '0' + min : min) + ' ' + d + '.' + (mon < 9 ? '0' + (+mon + 1) : mon + 1) + '.' + y;
-                markers[id] = L.marker([items[i].getPosition().y, items[i].getPosition().x], { icon: myIcon }).addTo(map).bindPopup("<b>" + items[i].getName() + "</b><br>" + itemPositionX + itemPositionY + "<br>" + itemSpeed + "<br>" + timeString);
-                
+                var ago = session.getServerTime() - items[i].getPosition().t;
+                var daysAgo = ago / 86400 | 0;
+                var hoursAgo = (ago - 86400 * daysAgo) / 3600 | 0;
+                var minutesAgo = (ago - 86400 * daysAgo - 3600 * hoursAgo) / 60 | 0;
+                var secondsAgo = ago - 86400 * daysAgo - 3600 * hoursAgo - 60 * minutesAgo;
+                ago = (daysAgo > 0 ? daysAgo + ' дней ' : '') + (hoursAgo > 0 ? hoursAgo + ' часов ' : '') + (minutesAgo > 0 ? minutesAgo + ' минут ' : '') + secondsAgo ;
+                var timeString = 'Время: ' + itemTime + '<br><span id = "ago' + id + '" class = "coord">' + ago + ' сек. назад</span>';
+                markers[id] = L.marker([items[i].getPosition().y, items[i].getPosition().x], { icon: myIcon }).addTo(map).bindPopup("<b>" + items[i].getName() + "</b><br>" + itemPositionX + ' ' + itemPositionY + "<br>" + itemSpeed + "<br>" + timeString);
                 point.push([items[i].getPosition().y, items[i].getPosition().x]);
             }
             else {
@@ -103,7 +107,7 @@ function updateFlags(session) {
                 var y = '';
                 var timeString = '';
             }
-            objectsData += '<li class="item" unit id="' + id + '" onclick="findObject(' + id + ')">' + itemIconUrl + '<div class="itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ' ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
+            objectsData += '<li class="item" unit id="' + id + '" onclick="findObject(' + id + ')">' + itemIconUrl + '<div class="itemInfo" id="' + id + 'itemInfo">' + itemName + '<br><span class="coord">' + itemPositionX + ' ' + itemPositionY + '<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span></div></li>';
         }
         var bounds = L.latLngBounds(point);
         map.fitBounds(bounds);
@@ -128,15 +132,30 @@ function findObject(id) {
 // 	console.log(this);
 // });.
 
-
+//сдвиг маркера на текущую позицию и изменение в панели объектов
 function changesPosition(event) {
+    var itemName = event.getTarget().getName();
 	var posX = event.getTarget().getPosition().x;
 	var posY = event.getTarget().getPosition().y;
-	var id  =event.getTarget().getId();
+	var id  = event.getTarget().getId();
 	markers[id].setLatLng(L.latLng(posY, posX));
-	console.log(posX, posY);
+	map.setView([posY, posX], 20);
+	var itemSpeed = 'Скорость: ' + event.getTarget().getPosition().s + ' км/ч';
+	var itemTime = wialon.util.DateTime.formatTime(event.getTarget().getPosition().t);
+	var ago = session.getServerTime() - event.getTarget().getPosition().t;
+	var daysAgo = ago/86400 | 0;
+	var hoursAgo = (ago - 86400 * daysAgo)/3600 | 0;
+	var minutesAgo = (ago - 86400 * daysAgo - 3600 * hoursAgo)/60 | 0;
+	var secondsAgo = ago - 86400 * daysAgo - 3600 * hoursAgo - 60 * minutesAgo;
+	ago = (daysAgo > 0 ? daysAgo + ' дней ' : '') + (hoursAgo > 0 ? hoursAgo + ' часов ' : '') + (minutesAgo > 0 ? minutesAgo + ' минут ' : '') + secondsAgo + ' сек. назад';
+	var timeString = 'Время: ' + itemTime + '<br><span id = "ago' + id + '" class = "coord">' + ago + ' назад</span>';
+	var objData = document.getElementById(id + 'itemInfo');
+	objData.innerHTML = itemName + '<br><span class="coord">' + posX.toFixed(3) + '&deg; ' + posY.toFixed(3) + '&deg;<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span>';
+	servUpdCounter = 0;
 }
 
+
+//выход
 function LogOut() {
     var session = wialon.core.Session.getInstance();
     session.logout(function (code) {
@@ -150,24 +169,30 @@ function LogOut() {
             for (var i = 0; i < clearMarker.length; i++) {
                 clearMarker[i].innerHTML = '';
             }
+            delete markers;
         }
     });
 }
 
-// function fact(n) {
-// 	if(n == 0 || n == 1) return 1;
-// 	else return n * fact(n-1);
-// }
 
-// session.addListener("serverUpdated", function(event) {
-// 	var obj = document.getElementsByTagName('li');
-// 	var session = wialon.core.Session.getInstance();
-// 	var items = session.getItems('avl_units');
-// 	for(var i = 0; i < obj.length; i++) {
-// 			if(obj[i].hasAttribute('unit') ) {
-// 				var str = obj[i].querySelector('.timeStr');
-// 				var t = session.getServerTime() - items[0].getPosition().t;
-// 			}
-// 		}
-// 	}
-// });
+
+//обновление счетчика времени последнего сообщения раз в 10 сек
+function updDataFromServer(event) {
+    servUpdCounter++;
+    if (servUpdCounter == 10) { //
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].getPosition()) {
+                var id = items[i].getId();
+                var ago = session.getServerTime() - items[i].getPosition().t;
+                var daysAgo = ago / 86400 | 0;
+                var hoursAgo = (ago - 86400 * daysAgo) / 3600 | 0;
+                var minutesAgo = (ago - 86400 * daysAgo - 3600 * hoursAgo) / 60 | 0;
+                var secondsAgo = ago - 86400 * daysAgo - 3600 * hoursAgo - 60 * minutesAgo;
+                ago = (daysAgo > 0 ? daysAgo + ' дней ' : '') + (hoursAgo > 0 ? hoursAgo + ' часов ' : '') + (minutesAgo > 0 ? minutesAgo + ' минут ' : '') + secondsAgo + ' сек. назад';
+                var objData = document.getElementById('ago' + id);
+                objData.innerHTML = ago;
+                servUpdCounter = 0;
+            }
+        }
+    }
+}
