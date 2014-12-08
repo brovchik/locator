@@ -134,7 +134,7 @@ function changesPosition(event) {
 	var posY = event.getTarget().getPosition().y;
 	var id  = event.getTarget().getId();
 	markers[id].setLatLng(L.latLng(posY, posX));
-	map.setView([posY, posX], 20);
+	map.setView([posY, posX]);
 	var itemSpeed = 'Скорость: ' + event.getTarget().getPosition().s + ' км/ч';
 	var itemTime = wialon.util.DateTime.formatTime(event.getTarget().getPosition().t);
 	var ago = session.getServerTime() - event.getTarget().getPosition().t;
