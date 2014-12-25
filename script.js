@@ -142,7 +142,7 @@ function changesPosition(event) {
 	var hoursAgo = (ago - 86400 * daysAgo)/3600 | 0;
 	var minutesAgo = (ago - 86400 * daysAgo - 3600 * hoursAgo)/60 | 0;
 	var secondsAgo = ago - 86400 * daysAgo - 3600 * hoursAgo - 60 * minutesAgo;
-	ago = (daysAgo > 0 ? daysAgo + ' дней ' : '') + (hoursAgo > 0 ? hoursAgo + ' часов ' : '') + (minutesAgo > 0 ? minutesAgo + ' минут ' : '') + secondsAgo + ' сек. назад';
+	ago = (daysAgo > 0 ? daysAgo + ' дней ' : '') + (hoursAgo > 0 ? hoursAgo + ' часов ' : '') + (minutesAgo > 0 ? minutesAgo + ' минут ' : '') + secondsAgo + ' сек. ';
 	var timeString = 'Время: ' + itemTime + '<br><span id = "ago' + id + '" class = "coord">' + ago + ' назад</span>';
 	var objData = document.getElementById(id + 'itemInfo');
 	objData.innerHTML = itemName + '<br><span class="coord">' + posX.toFixed(3) + '&deg; ' + posY.toFixed(3) + '&deg;<br>' + itemSpeed + '</span><br><span class="timeStr">' + timeString + '</span>';
